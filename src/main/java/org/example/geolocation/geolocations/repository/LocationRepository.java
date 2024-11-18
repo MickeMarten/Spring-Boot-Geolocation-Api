@@ -4,4 +4,7 @@ import org.example.geolocation.geolocations.entity.Location;
 import org.springframework.data.repository.ListCrudRepository;
 
 public interface LocationRepository extends ListCrudRepository<Location, Integer> {
+
+
+
 }

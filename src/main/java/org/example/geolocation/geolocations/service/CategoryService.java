@@ -1,6 +1,7 @@
 package org.example.geolocation.geolocations.service;
 
 import org.example.geolocation.geolocations.dto.CategoryDto;
+import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,10 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-//@Transactional Körs i sin helhet eller inte alls.
-// HTttp cookies only
-    //Base 64 security finns inbyggt i java. Base64
-        public String allCategorys(){
-        return "All Categories";
+        public List<CategoryDto>allCategories(){
+
+            return categoryRepository.findAll().stream()
+                    .map(CategoryDto::convertToDto).toList();
         }
 
 }

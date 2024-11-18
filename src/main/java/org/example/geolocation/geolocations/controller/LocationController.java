@@ -1,17 +1,26 @@
 package org.example.geolocation.geolocations.controller;
 
+import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.entity.Location;
+import org.example.geolocation.geolocations.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
 public class LocationController {
 
-    @GetMapping("/location/public")
+    LocationService locationService;
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
+    }
 
-    public String publicLocation() {
-        return "all public locations";
-        //Hämta alla publika platser
+    @GetMapping("/location/public")
+    public List<LocationDto> publicLocation() {
+        return locationService.allLocations();
+
     }
 
     @GetMapping("/location/public/{locationId}")

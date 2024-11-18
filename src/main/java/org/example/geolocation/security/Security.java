@@ -46,6 +46,8 @@ public class Security {
                         authorize
                         .requestMatchers(HttpMethod.POST,"/api/categories").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/location/public").permitAll()
+                                .requestMatchers("/error").permitAll()
                         .anyRequest().denyAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(AbstractHttpConfigurer::disable)

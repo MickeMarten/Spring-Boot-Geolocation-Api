@@ -3,6 +3,8 @@ package org.example.geolocation.geolocations.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -108,10 +110,13 @@ public class Location {
         this.deleted = deleted;
     }
 
-/*
- TODO [Reverse Engineering] create field to map the 'coordinate' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
     @Column(name = "coordinate", columnDefinition = "geometry not null")
-    private Object coordinate;
-*/
+    private Point<G2D> coordinate;
+
+    public Point<G2D> getCoordinate() {
+        return coordinate;
+    }
+    public void setCoordinate(Point<G2D> coordinate) {
+        this.coordinate = coordinate;
+    }
 }

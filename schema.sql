@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS location (
 
 
 );
+
+
+
 ##    2. Plats: Varje plats ska ha ett namn (obligatoriskt), tillhöra en befintlig kategori,
 ##ha ett användar-ID för den användare som lagt till platsen, en status för
 ##privat/publik (standardinställning), datum och tid för senaste ändring, en
