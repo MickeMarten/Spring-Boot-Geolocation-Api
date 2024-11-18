@@ -1,5 +1,6 @@
 package org.example.geolocation.geolocations.controller;
 
+import org.example.geolocation.geolocations.entity.Location;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
