@@ -24,4 +24,5 @@ public record LocationDto(Integer id, String name, Integer category_id, String d
     }
 
 
+
 }

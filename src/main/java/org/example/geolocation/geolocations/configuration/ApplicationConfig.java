@@ -1,5 +1,4 @@
-package org.example.geolocation.geolocations;
-import com.fasterxml.jackson.databind.ObjectMapper;
+package org.example.geolocation.geolocations.configuration;
 import org.geolatte.geom.json.GeolatteGeomModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
