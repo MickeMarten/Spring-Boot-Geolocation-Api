@@ -17,7 +17,7 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    @GetMapping("/location/public")
+    @GetMapping("/locations/public")
     public List<LocationDto> publicLocation() {
         return locationService.allLocations();
 

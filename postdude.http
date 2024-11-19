@@ -1,0 +1,11 @@
+###
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+
+{
+  "name": "Badhus",
+  "description": "Bada",
+  "symbol": "Delfin"
+}
+
+###

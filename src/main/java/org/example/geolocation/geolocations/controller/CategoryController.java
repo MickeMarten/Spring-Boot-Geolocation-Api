@@ -1,18 +1,27 @@
 package org.example.geolocation.geolocations.controller;
 
+import jakarta.validation.Valid;
 import org.example.geolocation.geolocations.dto.CategoryDto;
+import org.example.geolocation.geolocations.entity.Category;
+import org.example.geolocation.geolocations.repository.CategoryRepository;
 import org.example.geolocation.geolocations.service.CategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api")
 @RestController
 public class CategoryController {
 
+    CategoryRepository categoryRepository;
     CategoryService categoryService;
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
     }
 
@@ -25,18 +34,22 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{categoryId}")
-    //@PreAuthorize("permitAll()")
-    public Integer categoryById(@PathVariable Integer categoryId) {
-        return categoryId;
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<CategoryDto> categoryById(@PathVariable Integer categoryId) {
+
+        return categoryService.getCategoryById(categoryId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
         // Hämta en specifik kategori
     }
 
     @PostMapping("/categories")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public String categories(@RequestBody CategoryDto categoryDto) {
-        return "create category";
-
-        //POST: Skapa en ny kategori (kräver adminroll). Namnet får inte
-        //kollidera med en befintlig kategori.
+    public ResponseEntity<String> createCategory(@RequestBody CategoryDto categoryDto) {
+        try {
+            int id = categoryService.addCategory(categoryDto);
+            return ResponseEntity.created(URI.create("/api/categories/" + id)).build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

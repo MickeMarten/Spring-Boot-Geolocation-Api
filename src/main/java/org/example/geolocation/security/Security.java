@@ -44,9 +44,9 @@ public class Security {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-                        .requestMatchers(HttpMethod.POST,"/api/categories").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/location/public").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/categories").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/categories/*").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/locations/public").permitAll()
                                 .requestMatchers("/error").permitAll()
                         .anyRequest().denyAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
