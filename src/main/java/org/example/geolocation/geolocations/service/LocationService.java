@@ -1,13 +1,10 @@
 package org.example.geolocation.geolocations.service;
 
-import org.example.geolocation.geolocations.dto.CategoryDto;
 import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LocationService {
@@ -17,7 +14,7 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<LocationDto> allLocations(LocationDto locationDto) {
+    public List<LocationDto> allPublicLocations(LocationDto locationDto) {
 
         return locationRepository.findAll().stream()
                 .filter(location -> location.getIsPublic().equals(true))
@@ -25,8 +22,10 @@ public class LocationService {
                 .toList();
     }
 
-    public Optional<LocationDto> getLocationById(Integer id) {
-        return locationRepository.findById(id).map(LocationDto::convertToDto);
+    public LocationDto getPublicLocationById(Integer id) {
+        return locationRepository.findByIdAndIsPublic(id, true)
+                .map(LocationDto::convertToDto)
+                .orElseThrow(() -> new IllegalArgumentException("Location with id " + id + " does not exist or is not public"));
     }
 
 }
