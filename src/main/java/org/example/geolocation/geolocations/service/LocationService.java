@@ -14,7 +14,7 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<LocationDto> allPublicLocations(LocationDto locationDto) {
+    public List<LocationDto> getAllPublicLocations(LocationDto locationDto) {
 
         return locationRepository.findAll().stream()
                 .filter(location -> location.getIsPublic().equals(true))

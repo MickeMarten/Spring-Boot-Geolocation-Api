@@ -18,7 +18,7 @@ public class LocationController {
 
     @GetMapping("/locations/public")
     public List<LocationDto> publicLocations(LocationDto locationDto) {
-            return locationService.allPublicLocations(locationDto);
+            return locationService.getAllPublicLocations(locationDto);
 
     }
 
