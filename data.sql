@@ -17,3 +17,5 @@ VALUES
 
 DELETE FROM category
 WHERE id = 6;
+
+UPDATE location SET is_public = 0 WHERE id = 1;

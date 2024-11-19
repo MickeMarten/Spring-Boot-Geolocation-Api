@@ -47,7 +47,7 @@ public class CategoryController {
     public ResponseEntity<String> createCategory(@RequestBody CategoryDto categoryDto) {
         try {
             int id = categoryService.addCategory(categoryDto);
-            return ResponseEntity.created(URI.create("/api/categories/" + id)).build();
+            return ResponseEntity.created(URI.create("/api/categories/" + id)).body("Category created");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

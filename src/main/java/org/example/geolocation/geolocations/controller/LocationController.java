@@ -1,12 +1,15 @@
 package org.example.geolocation.geolocations.controller;
 
+import org.example.geolocation.geolocations.dto.CategoryDto;
 import org.example.geolocation.geolocations.dto.LocationDto;
+import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.example.geolocation.geolocations.service.LocationService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api")
 @RestController
@@ -18,14 +21,15 @@ public class LocationController {
     }
 
     @GetMapping("/locations/public")
-    public List<LocationDto> publicLocation() {
-        return locationService.allLocations();
+    public List<LocationDto> publicLocation(LocationDto locationDto) {
+            return locationService.allLocations(locationDto);
+
 
     }
 
-    @GetMapping("/location/public/{locationId}")
-    public Integer publicLocationId(@PathVariable("locationId") Integer locationId) {
-        return locationId;
+    @GetMapping("/locations/public/{locationId}")
+    public Optional<LocationDto> publicLocationId(@PathVariable("locationId") Integer locationId) {
+        return locationService.getLocationById(locationId);
         //en specifik publik plats (för anonyma användare).
     }
 
