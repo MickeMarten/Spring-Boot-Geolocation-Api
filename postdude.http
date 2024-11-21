@@ -13,3 +13,23 @@ GET http://localhost:8080/api/locations/public
 
 ###
 GET http://localhost:8080/api/categories
+###
+POST http://localhost:8080/api/location
+Content-Type: application/json
+
+{
+  "name": "Pryddsssgården",
+  "category_id": 1,
+  "description": "Fin park i Pryssgåradsden ghetto",
+  "coordinate": {
+    "type": "Point",
+    "coordinates": [15.634, 58.411]
+  }
+
+
+
+
+}
+
+###
+DELETE  http://localhost:8080/api/location/delete/17

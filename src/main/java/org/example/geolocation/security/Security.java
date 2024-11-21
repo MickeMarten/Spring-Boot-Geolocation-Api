@@ -45,8 +45,10 @@ public class Security {
                 .authorizeHttpRequests(authorize ->
                         authorize
                         .requestMatchers(HttpMethod.POST,"/api/categories").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/location").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/locations/public/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/api/location/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                         .anyRequest().denyAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

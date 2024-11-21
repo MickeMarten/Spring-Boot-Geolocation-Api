@@ -1,11 +1,16 @@
 package org.example.geolocation.geolocations.controller;
 
+import org.example.geolocation.geolocations.dto.CategoryDto;
 import org.example.geolocation.geolocations.dto.LocationDto;
+import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.example.geolocation.geolocations.service.LocationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api")
 @RestController
@@ -28,20 +33,24 @@ public class LocationController {
         //en specifik publik plats (för anonyma användare).
     }
 
-    @GetMapping("/location/public/category/{categoryId}")
-    public Integer publicLocationCategoryId(@PathVariable("categoryId") Integer categoryId) {
-        return categoryId;
+    @GetMapping("/locations/public/category/{categoryId}")
+    public ResponseEntity<List<LocationDto>> publicLocationCategoryId(@PathVariable("categoryId") Integer categoryId, Category category) {
+        List<LocationDto> locations = locationService.getPublicLocationsByCategory(categoryId);
+        if(locations.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(locations);
       //Hämta alla publika platser inom en specifik kategori.
     }
 
-    @GetMapping("location/user")
+    @GetMapping("locations/user")
     public String userLocation() {
         return "user connected with location";
         //Hämta alla platser (både publika och privata) som tillhör den
         //inloggade användaren.
     }
 
-    @GetMapping("location/public/area")
+    @GetMapping("locations/public/area")
     public String publicLocationArea() {
         return "public";
 
@@ -50,8 +59,11 @@ public class LocationController {
     }
 
     @PostMapping("/location")
-    public Location postLocation(@RequestBody Location location) {
-        return location;
+    public ResponseEntity<String> postLocation(@RequestBody LocationDto locationDto) {
+        int id = locationService.addLocation(locationDto);
+
+        return ResponseEntity.created(URI.create("/api/location" + id)).body("New location added");
+
         //POST: Skapa en ny plats (kräver inloggning).
     }
 
@@ -61,8 +73,10 @@ public class LocationController {
         //PUT: Uppdatera en befintlig plats (kräver inloggning).
     }
 
-    @DeleteMapping("location/{locationId}")
+    @DeleteMapping("location/delete/{locationId}")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
+        locationService.deleteLocation(locationId);
+
         // DELETE: Ta bort en befintlig plats (kräver inloggning). Här kan soft
       //  delete vara ett alternativ
 

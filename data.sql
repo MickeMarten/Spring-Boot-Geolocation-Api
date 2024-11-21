@@ -10,12 +10,15 @@ VALUES
 
 INSERT INTO location (name, category_id, description, coordinate)
 VALUES
-    ('Folkparken', 1, 'A beautiful park in Norrköping', ST_GeomFromText('POINT(16.1887 58.5906)', 4326)),
-    ('Arbetets museum', 2, 'Museum of work and industry', ST_GeomFromText('POINT(16.1925 58.5894)', 4326)),
-    ('Restaurant Enoteket', 3, 'Italian-inspired restaurant in the city center', ST_GeomFromText('POINT(16.2002 58.5919)', 4326));
+    ('Wasa Parken', 1, 'A beautiful park in Norrköping', ST_GeomFromText('POINT(17.1887 59.5906)', 4326)),
+    ('Konst Museumet', 2, 'Museum of work and industry', ST_GeomFromText('POINT(13.1925 58.5894)', 4326)),
+    ('Pasta Snäckan', 3, 'Italian-inspired restaurant in the city center', ST_GeomFromText('POINT(13.2002 58.5919)', 4326));
 
 
 DELETE FROM category
 WHERE id = 6;
 
-UPDATE location SET is_public = 0 WHERE id = 1;
+DELETE FROM location
+WHERE id >= 10 ;
+
+UPDATE location SET is_public = 0 WHERE id = 5;

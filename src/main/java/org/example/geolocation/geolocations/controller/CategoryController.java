@@ -28,9 +28,14 @@ public class CategoryController {
     @GetMapping("/categories")
     @PreAuthorize("permitAll()")
 
-    public List<CategoryDto> categories() {
-        return categoryService.allCategories();
-        // GET: Hämta alla kategorier
+    public ResponseEntity<List<CategoryDto>> categories() {
+        List<CategoryDto> categories = categoryService.allCategories();
+        if (categories.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(categories);
+        }
+        // GET: Hämta alla kategorier
     }
 
     @GetMapping("/categories/{categoryId}")

@@ -40,11 +40,11 @@ public class Location {
 
     @ColumnDefault("1")
     @Column(name = "is_public")
-    private Boolean isPublic;
+    private Boolean isPublic = true;
 
     @ColumnDefault("0")
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     public Integer getId() {
         return id;
@@ -118,5 +118,16 @@ public class Location {
     }
     public void setCoordinate(Point<G2D> coordinate) {
         this.coordinate = coordinate;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.created = Instant.now();
+        this.modifiedAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.modifiedAt = Instant.now();
     }
 }
