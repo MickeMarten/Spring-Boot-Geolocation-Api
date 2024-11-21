@@ -67,11 +67,14 @@ public class LocationController {
         //POST: Skapa en ny plats (kräver inloggning).
     }
 
-    @PutMapping("/location/{locationId}")
-    public Location putLocation(@PathVariable("locationId") Integer locationId, @RequestBody Location location) {
-        return location;
+    @PutMapping("/location/update/{locationId}")
+    public ResponseEntity<LocationDto> putLocation(@PathVariable("locationId") Integer locationId, @RequestBody LocationDto updedLocationDto) {
+            LocationDto updatedLocation = locationService.updateLocation(updedLocationDto, locationId);
+            return ResponseEntity.ok(updatedLocation);
+        }
+
+
         //PUT: Uppdatera en befintlig plats (kräver inloggning).
-    }
 
     @DeleteMapping("location/delete/{locationId}")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {

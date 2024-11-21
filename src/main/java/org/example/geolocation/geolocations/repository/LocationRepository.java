@@ -1,7 +1,6 @@
 package org.example.geolocation.geolocations.repository;
 
 import org.example.geolocation.geolocations.dto.LocationDto;
-import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -14,7 +13,7 @@ public interface LocationRepository extends ListCrudRepository<Location, Integer
 
     List<Location> findByCategoryIdAndIsPublic(Integer categoryId, Boolean isPublic);
 
-    Void deleteLocationById(Integer id);
+
 
 
 

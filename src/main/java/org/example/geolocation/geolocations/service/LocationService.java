@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodType;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Filter;
@@ -64,6 +65,27 @@ public class LocationService {
         locationRepository.save(newLocation);
         return newLocation.getId();
     }
+
+
+    public LocationDto updateLocation(LocationDto updatedLocationDto, Integer locationId) {
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new IllegalArgumentException("Location with id " + locationId + " not found."));
+
+        Category category = categoryRepository.findById(updatedLocationDto.category_id())
+                .orElseThrow(() -> new IllegalArgumentException("Category with id " + updatedLocationDto.category_id() + " not found."));
+
+        location.setName(updatedLocationDto.name());
+        location.setDescription(updatedLocationDto.description());
+        location.setCoordinate(updatedLocationDto.coordinate());
+        location.setCategory(category);
+
+        Location updatedLocation = locationRepository.save(location);
+
+        return LocationDto.convertToDto(updatedLocation);
+    }
+
+
+
 
     public void deleteLocation(Integer id) {
 

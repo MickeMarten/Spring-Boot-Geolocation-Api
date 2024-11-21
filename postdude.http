@@ -33,3 +33,16 @@ Content-Type: application/json
 
 ###
 DELETE  http://localhost:8080/api/location/delete/17
+
+###
+PUT http://localhost:8080/api/location/update/4
+
+{
+"name": "Lindö",
+  "category_id": 1,
+  "description": "Fin park i Pryssgåradsden ghetto",
+  "coordinate": {
+    "type": "Point",
+    "coordinates": [15.634, 58.411]
+    }
+}
