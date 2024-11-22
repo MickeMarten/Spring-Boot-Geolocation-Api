@@ -17,13 +17,16 @@ import java.util.Optional;
 public class LocationController {
 
     LocationService locationService;
+
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
 
     @GetMapping("/locations/public")
     public List<LocationDto> publicLocations(LocationDto locationDto) {
-            return locationService.getAllPublicLocations(locationDto);
+        return locationService.getAllPublicLocations(locationDto);
+
+        // Hämta alla publica platser
 
     }
 
@@ -34,13 +37,13 @@ public class LocationController {
     }
 
     @GetMapping("/locations/public/category/{categoryId}")
-    public ResponseEntity<List<LocationDto>> publicLocationCategoryId(@PathVariable("categoryId") Integer categoryId, Category category) {
+    public ResponseEntity<List<LocationDto>> publicLocationCategoryId(@PathVariable("categoryId") Integer categoryId) {
         List<LocationDto> locations = locationService.getPublicLocationsByCategory(categoryId);
-        if(locations.isEmpty()) {
+        if (locations.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(locations);
-      //Hämta alla publika platser inom en specifik kategori.
+        //Hämta alla publika platser inom en specifik kategori.
     }
 
     @GetMapping("locations/user")
@@ -68,20 +71,24 @@ public class LocationController {
     }
 
     @PutMapping("/location/update/{locationId}")
-    public ResponseEntity<LocationDto> putLocation(@PathVariable("locationId") Integer locationId, @RequestBody LocationDto updedLocationDto) {
-            LocationDto updatedLocation = locationService.updateLocation(updedLocationDto, locationId);
-            return ResponseEntity.ok(updatedLocation);
+    public ResponseEntity<String> putLocation(@PathVariable("locationId") Integer locationId, @RequestBody LocationDto updedLocationDto) {
+        try {
+            locationService.updateLocation(updedLocationDto, locationId);
+            return ResponseEntity.ok("Location updated successfully" + updedLocationDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
         }
+    }
 
 
-        //PUT: Uppdatera en befintlig plats (kräver inloggning).
+    //PUT: Uppdatera en befintlig plats (kräver inloggning).
 
     @DeleteMapping("location/delete/{locationId}")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
 
         // DELETE: Ta bort en befintlig plats (kräver inloggning). Här kan soft
-      //  delete vara ett alternativ
+        //  delete vara ett alternativ
 
     }
 

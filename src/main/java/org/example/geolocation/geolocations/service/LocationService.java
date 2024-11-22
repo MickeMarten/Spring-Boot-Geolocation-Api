@@ -1,20 +1,11 @@
 package org.example.geolocation.geolocations.service;
-
-import org.example.geolocation.geolocations.dto.CategoryDto;
 import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.example.geolocation.geolocations.repository.CategoryRepository;
 import org.example.geolocation.geolocations.repository.LocationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Service;
-
-import java.lang.invoke.MethodType;
-import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Filter;
 
 @Service
 public class LocationService {
@@ -67,7 +58,7 @@ public class LocationService {
     }
 
 
-    public LocationDto updateLocation(LocationDto updatedLocationDto, Integer locationId) {
+    public void updateLocation(LocationDto updatedLocationDto, Integer locationId) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new IllegalArgumentException("Location with id " + locationId + " not found."));
 
@@ -78,13 +69,9 @@ public class LocationService {
         location.setDescription(updatedLocationDto.description());
         location.setCoordinate(updatedLocationDto.coordinate());
         location.setCategory(category);
+        locationRepository.save(location);
 
-        Location updatedLocation = locationRepository.save(location);
-
-        return LocationDto.convertToDto(updatedLocation);
     }
-
-
 
 
     public void deleteLocation(Integer id) {
@@ -92,7 +79,6 @@ public class LocationService {
         locationRepository.deleteById(id);
 
     }
-
 
 
 }

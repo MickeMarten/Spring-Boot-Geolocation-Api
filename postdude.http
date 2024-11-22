@@ -32,10 +32,11 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:8080/api/location/delete/17
+DELETE  http://localhost:8080/api/location/delete/19
 
 ###
-PUT http://localhost:8080/api/location/update/4
+PUT http://localhost:8080/api/location/update/1
+Content-Type: application/json
 
 {
 "name": "Lindö",
