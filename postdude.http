@@ -44,6 +44,9 @@ Content-Type: application/json
   "description": "Fin park i Pryssgåradsden ghetto",
   "coordinate": {
     "type": "Point",
-    "coordinates": [15.634, 58.411]
+    "coordinates": [58.411,15.634]
     }
 }
+
+###
+GET http://localhost:8080/api/locations/public/area?radius=5000&lat=58.5935&lon=16.1869

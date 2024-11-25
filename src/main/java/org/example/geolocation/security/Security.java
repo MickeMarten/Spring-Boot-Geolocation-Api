@@ -48,6 +48,7 @@ public class Security {
                                 .requestMatchers(HttpMethod.POST,"/api/location").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/locations/public/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/locations/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/api/location/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/location/**").permitAll()
                                 .requestMatchers("/error").permitAll()

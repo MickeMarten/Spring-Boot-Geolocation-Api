@@ -16,18 +16,18 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-        public List<CategoryDto>allCategories(){
+    public List<CategoryDto> allCategories() {
 
-            return categoryRepository.findAll().stream()
-                    .map(CategoryDto::convertToDto).toList();
-        }
+        return categoryRepository.findAll().stream()
+                .map(CategoryDto::convertToDto).toList();
+    }
 
-        public Optional<CategoryDto> getCategoryById(int id) {
-            return categoryRepository.findById(id).map(CategoryDto::convertToDto);
-        }
+    public Optional<CategoryDto> getCategoryById(int id) {
+        return categoryRepository.findById(id).map(CategoryDto::convertToDto);
+    }
 
-        public int addCategory(CategoryDto categoryDto) {
-        if(categoryRepository.existsByName(categoryDto.name())){
+    public int addCategory(CategoryDto categoryDto) {
+        if (categoryRepository.existsByName(categoryDto.name())) {
             throw new IllegalArgumentException("Category name already exists" + categoryDto.name());
         }
         Category category = new Category();
@@ -36,8 +36,7 @@ public class CategoryService {
         category.setSymbol(categoryDto.symbol());
         categoryRepository.save(category);
         return category.getId();
-        }
-
+    }
 
 
 }

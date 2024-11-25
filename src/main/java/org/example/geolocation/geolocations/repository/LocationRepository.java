@@ -2,6 +2,8 @@ package org.example.geolocation.geolocations.repository;
 
 import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.entity.Location;
+import org.locationtech.jts.geom.Point;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
@@ -13,7 +15,8 @@ public interface LocationRepository extends ListCrudRepository<Location, Integer
 
     List<Location> findByCategoryIdAndIsPublic(Integer categoryId, Boolean isPublic);
 
-
+    @Query("SELECT l FROM Location l WHERE ST_Distance(l.coordinate, :center) <= :radius")
+    List<Location> findAllWithinRadius(Point center, double radius);
 
 
 

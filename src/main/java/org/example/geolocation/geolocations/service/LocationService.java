@@ -1,11 +1,19 @@
 package org.example.geolocation.geolocations.service;
+
+import org.example.geolocation.geolocations.configuration.ApplicationConfig;
 import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.example.geolocation.geolocations.repository.CategoryRepository;
 import org.example.geolocation.geolocations.repository.LocationRepository;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Geometries;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
+import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 @Service
 public class LocationService {
@@ -36,6 +44,15 @@ public class LocationService {
     public List<LocationDto> getPublicLocationsByCategory(Integer categoryId) {
         return locationRepository.findByCategoryIdAndIsPublic(categoryId, true)
                 .stream()
+                .map(LocationDto::convertToDto)
+                .toList();
+
+
+    }
+
+    public List<LocationDto> getLocationWithinArea(Point center, double radius) {
+
+        return locationRepository.findAllWithinRadius(center, radius).stream()
                 .map(LocationDto::convertToDto)
                 .toList();
 

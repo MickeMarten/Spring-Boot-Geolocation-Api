@@ -1,12 +1,18 @@
 package org.example.geolocation.geolocations.controller;
 
+import org.example.geolocation.geolocations.center.Center;
 import org.example.geolocation.geolocations.dto.CategoryDto;
 import org.example.geolocation.geolocations.dto.LocationDto;
 import org.example.geolocation.geolocations.entity.Category;
 import org.example.geolocation.geolocations.entity.Location;
 import org.example.geolocation.geolocations.service.LocationService;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.List;
@@ -53,13 +59,25 @@ public class LocationController {
         //inloggade användaren.
     }
 
-    @GetMapping("locations/public/area")
-    public String publicLocationArea() {
-        return "public";
 
-        //Hämta alla platser inom en viss yta (radie från ett centrum eller
-        //hörn på en kvadrat).
+
+    @GetMapping("locations/public/area")
+    public List<LocationDto> getLocationsWithinRadius(@RequestParam double radius, @RequestParam double lat,@RequestParam double lon) {
+        try {
+            Center center = new Center(lon, lat);
+            center.setSRID(4326);
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Coordinate coordinate = new Coordinate(center.lon(), center.lat());
+            Point centerPoint = geometryFactory.createPoint(coordinate);
+            centerPoint.setSRID(4326);
+
+            return locationService.getLocationWithinArea(centerPoint, radius);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching locations", e);
+        }
     }
+
 
     @PostMapping("/location")
     public ResponseEntity<String> postLocation(@RequestBody LocationDto locationDto) {
