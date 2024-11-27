@@ -12,6 +12,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
@@ -61,6 +62,11 @@ public class LocationService {
 
 
     public Integer addLocation(LocationDto locationDto) {
+
+        Optional<Location> existingLocation = locationRepository.findByName(locationDto.name());
+        if (existingLocation.isPresent()) {
+            throw new IllegalArgumentException("Location with name '" + locationDto.name() + "' already exists");
+        }
 
         Category categoryId = categoryRepository.findById(locationDto.category_id())
                 .orElseThrow(() -> new IllegalArgumentException("Category with id " + locationDto.category_id() + " does not exist"));

@@ -11,6 +11,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,6 +30,7 @@ public class LocationController {
     }
 
     @GetMapping("/locations/public")
+    @PreAuthorize("permitAll()")
     public List<LocationDto> publicLocations(LocationDto locationDto) {
         return locationService.getAllPublicLocations(locationDto);
 
@@ -37,12 +39,14 @@ public class LocationController {
     }
 
     @GetMapping("/locations/public/{locationId}")
+    @PreAuthorize("permitAll()")
     public LocationDto publicLocationId(@PathVariable("locationId") Integer locationId) {
         return locationService.getPublicLocationById(locationId);
         //en specifik publik plats (för anonyma användare).
     }
 
     @GetMapping("/locations/public/category/{categoryId}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<LocationDto>> publicLocationCategoryId(@PathVariable("categoryId") Integer categoryId) {
         List<LocationDto> locations = locationService.getPublicLocationsByCategory(categoryId);
         if (locations.isEmpty()) {
@@ -52,7 +56,8 @@ public class LocationController {
         //Hämta alla publika platser inom en specifik kategori.
     }
 
-    @GetMapping("locations/user")
+    @GetMapping("locations/mylocations")
+    @PreAuthorize("isAuthenticated()")
     public String userLocation() {
         return "user connected with location";
         //Hämta alla platser (både publika och privata) som tillhör den
@@ -62,6 +67,7 @@ public class LocationController {
 
 
     @GetMapping("locations/public/area")
+    @PreAuthorize("permitAll()")
     public List<LocationDto> getLocationsWithinRadius(@RequestParam double radius, @RequestParam double lat,@RequestParam double lon) {
         try {
             Center center = new Center(lon, lat);
@@ -80,15 +86,18 @@ public class LocationController {
 
 
     @PostMapping("/location")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> postLocation(@RequestBody LocationDto locationDto) {
-        int id = locationService.addLocation(locationDto);
-
-        return ResponseEntity.created(URI.create("/api/location" + id)).body("New location added");
-
-        //POST: Skapa en ny plats (kräver inloggning).
+        try {
+            int id = locationService.addLocation(locationDto);
+            return ResponseEntity.created(URI.create("/api/location/" + id)).body("New location added");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @PutMapping("/location/update/{locationId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> putLocation(@PathVariable("locationId") Integer locationId, @RequestBody LocationDto updedLocationDto) {
         try {
             locationService.updateLocation(updedLocationDto, locationId);
@@ -102,6 +111,7 @@ public class LocationController {
     //PUT: Uppdatera en befintlig plats (kräver inloggning).
 
     @DeleteMapping("location/delete/{locationId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
 

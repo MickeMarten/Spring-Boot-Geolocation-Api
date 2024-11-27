@@ -49,6 +49,7 @@ public class CategoryController {
     }
 
     @PostMapping("/categories")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createCategory(@RequestBody CategoryDto categoryDto) {
         try {
             int id = categoryService.addCategory(categoryDto);

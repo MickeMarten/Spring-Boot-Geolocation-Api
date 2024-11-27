@@ -18,9 +18,9 @@ POST http://localhost:8080/api/location
 Content-Type: application/json
 
 {
-  "name": "Pryddsssgården",
+  "name": "Kaktusparken",
   "category_id": 1,
-  "description": "Fin park i Pryssgåradsden ghetto",
+  "description": "pass upp för kaktus",
   "coordinate": {
     "type": "Point",
     "coordinates": [15.634, 58.411]
@@ -41,7 +41,7 @@ Content-Type: application/json
 {
 "name": "Lindö",
   "category_id": 1,
-  "description": "Fin park i Pryssgåradsden ghetto",
+  "description": "Fin park i Lindö",
   "coordinate": {
     "type": "Point",
     "coordinates": [58.411,15.634]
