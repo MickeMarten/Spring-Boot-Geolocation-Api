@@ -20,6 +20,8 @@ public interface LocationRepository extends ListCrudRepository<Location, Integer
 
     Optional<Location> findByName(String name);
 
+    List<Location> findByUser(String username);
+
 }
 
 //https://spring.io/blog/2022/02/22/announcing-listcrudrepository-friends-for-spring-data-3-0

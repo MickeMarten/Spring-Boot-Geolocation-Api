@@ -23,7 +23,7 @@ DELETE FROM category
 WHERE id = 6;
 
 DELETE FROM location
-WHERE id = 1 ;
+WHERE id = 15 ;
 
 UPDATE location SET is_public = 0 WHERE id = 5;
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,12 +57,16 @@ public class LocationController {
         //Hämta alla publika platser inom en specifik kategori.
     }
 
-    @GetMapping("locations/mylocations")
+    @GetMapping("/locations/user")
     @PreAuthorize("isAuthenticated()")
-    public String userLocation() {
-        return "user connected with location";
-        //Hämta alla platser (både publika och privata) som tillhör den
-        //inloggade användaren.
+    public ResponseEntity<List<LocationDto>> getUserLocations(Principal principal) {
+        List<LocationDto> locations = locationService.getLocationsForUser(principal);
+
+        if (locations.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(locations);
+        }
+
+        return ResponseEntity.ok(locations);
     }
 
 
@@ -86,10 +91,10 @@ public class LocationController {
 
 
     @PostMapping("/location")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> postLocation(@RequestBody LocationDto locationDto) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> postLocation(@RequestBody LocationDto locationDto, Principal principal) {
         try {
-            int id = locationService.addLocation(locationDto);
+            int id = locationService.addLocation(locationDto, principal);
             return ResponseEntity.created(URI.create("/api/location/" + id)).body("New location added");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -97,7 +102,7 @@ public class LocationController {
     }
 
     @PutMapping("/location/update/{locationId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<String> putLocation(@PathVariable("locationId") Integer locationId, @RequestBody LocationDto updedLocationDto) {
         try {
             locationService.updateLocation(updedLocationDto, locationId);
@@ -108,15 +113,13 @@ public class LocationController {
     }
 
 
-    //PUT: Uppdatera en befintlig plats (kräver inloggning).
+
 
     @DeleteMapping("location/delete/{locationId}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
 
-        // DELETE: Ta bort en befintlig plats (kräver inloggning). Här kan soft
-        //  delete vara ett alternativ
 
     }
 

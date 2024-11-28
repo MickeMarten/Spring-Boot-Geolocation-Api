@@ -22,6 +22,10 @@ public class Location {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Size(max = 255)
+    @Column(name = "user")
+    private String user;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -60,6 +64,13 @@ public class Location {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUser() {
+        return user;
+    }
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public Category getCategory() {

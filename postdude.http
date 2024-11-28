@@ -39,9 +39,9 @@ PUT http://localhost:8080/api/location/update/1
 Content-Type: application/json
 
 {
-"name": "Lindö",
+"name": "Eneby",
   "category_id": 1,
-  "description": "Fin park i Lindö",
+  "description": "Fin park i Eneby",
   "coordinate": {
     "type": "Point",
     "coordinates": [58.411,15.634]

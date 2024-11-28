@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS category (
 CREATE TABLE IF NOT EXISTS location (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL ,
+    user VARCHAR(255),
     category_id INTEGER,
     description VARCHAR(255),
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -23,6 +24,10 @@ CREATE TABLE IF NOT EXISTS location (
 
 
 );
+
+
+
+
 
 
 

@@ -11,8 +11,10 @@ import org.geolatte.geom.Geometries;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
@@ -22,6 +24,7 @@ public class LocationService {
 
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
+
 
     public LocationService(CategoryRepository categoryRepository, LocationRepository locationRepository) {
         this.categoryRepository = categoryRepository;
@@ -60,8 +63,18 @@ public class LocationService {
 
     }
 
+    public List<LocationDto> getLocationsForUser(Principal principal) {
+        String username = principal.getName();
 
-    public Integer addLocation(LocationDto locationDto) {
+        List<Location> locations = locationRepository.findByUser(username);
+
+        return locations.stream()
+                .map(LocationDto::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    public Integer addLocation(LocationDto locationDto, Principal principal) {
 
         Optional<Location> existingLocation = locationRepository.findByName(locationDto.name());
         if (existingLocation.isPresent()) {
@@ -76,6 +89,7 @@ public class LocationService {
         newLocation.setCategory(categoryId);
         newLocation.setDescription(locationDto.description());
         newLocation.setCoordinate(locationDto.coordinate());
+        newLocation.setUser(principal.getName());
         locationRepository.save(newLocation);
         return newLocation.getId();
     }
