@@ -1,10 +1,9 @@
 package org.example.geolocation.geolocations.controller;
 
 import org.example.geolocation.geolocations.center.Center;
-import org.example.geolocation.geolocations.dto.CategoryDto;
+
 import org.example.geolocation.geolocations.dto.LocationDto;
-import org.example.geolocation.geolocations.entity.Category;
-import org.example.geolocation.geolocations.entity.Location;
+
 import org.example.geolocation.geolocations.service.LocationService;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -18,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+
 
 @RequestMapping("/api")
 @RestController
@@ -35,7 +34,7 @@ public class LocationController {
     public List<LocationDto> publicLocations(LocationDto locationDto) {
         return locationService.getAllPublicLocations(locationDto);
 
-        // Hämta alla publica platser
+
 
     }
 
@@ -43,7 +42,7 @@ public class LocationController {
     @PreAuthorize("permitAll()")
     public LocationDto publicLocationId(@PathVariable("locationId") Integer locationId) {
         return locationService.getPublicLocationById(locationId);
-        //en specifik publik plats (för anonyma användare).
+
     }
 
     @GetMapping("/locations/public/category/{categoryId}")
@@ -54,7 +53,7 @@ public class LocationController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(locations);
-        //Hämta alla publika platser inom en specifik kategori.
+
     }
 
     @GetMapping("/locations/user")
@@ -119,7 +118,7 @@ public class LocationController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
-
+// Lägg till soft delete
 
     }
 

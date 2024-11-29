@@ -35,7 +35,7 @@ public class CategoryController {
         } else {
             return ResponseEntity.ok(categories);
         }
-        // GET: Hämta alla kategorier
+
     }
 
     @GetMapping("/categories/{categoryId}")
@@ -45,11 +45,11 @@ public class CategoryController {
         return categoryService.getCategoryById(categoryId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-        // Hämta en specifik kategori
+
     }
 
     @PostMapping("/categories")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<String> createCategory(@RequestBody CategoryDto categoryDto) {
         try {
             int id = categoryService.addCategory(categoryDto);
