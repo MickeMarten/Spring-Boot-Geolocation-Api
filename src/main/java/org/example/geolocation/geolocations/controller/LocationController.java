@@ -1,9 +1,6 @@
 package org.example.geolocation.geolocations.controller;
-
-import org.example.geolocation.geolocations.center.Center;
-
+import org.example.geolocation.geolocations.centerpoint.CenterPoint;
 import org.example.geolocation.geolocations.dto.LocationDto;
-
 import org.example.geolocation.geolocations.service.LocationService;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
@@ -74,7 +70,7 @@ public class LocationController {
     @PreAuthorize("permitAll()")
     public List<LocationDto> getLocationsWithinRadius(@RequestParam double radius, @RequestParam double lat,@RequestParam double lon) {
         try {
-            Center center = new Center(lon, lat);
+            CenterPoint center = new CenterPoint(lon, lat);
             center.setSRID(4326);
             GeometryFactory geometryFactory = new GeometryFactory();
             Coordinate coordinate = new Coordinate(center.lon(), center.lat());
