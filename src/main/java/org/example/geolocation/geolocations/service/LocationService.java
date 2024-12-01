@@ -70,7 +70,7 @@ public class LocationService {
 
         return locations.stream()
                 .map(LocationDto::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
