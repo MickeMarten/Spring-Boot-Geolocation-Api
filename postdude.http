@@ -19,6 +19,7 @@ Content-Type: application/json
 //Testing gpd key
 //Testar igen
 //Testar igen
+//42 gången
 {
   "name": "Kaktusparken",
   "category_id": 1,
