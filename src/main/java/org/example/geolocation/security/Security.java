@@ -38,6 +38,7 @@ public class Security {
     //Konfigurera security här.
     //Deny by default och sedan öppnar upp.
     //Anomyenus
+    //Testar gpgnyckel
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
