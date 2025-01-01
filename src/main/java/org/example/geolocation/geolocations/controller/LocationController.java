@@ -114,7 +114,7 @@ public class LocationController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
-// Lägg till soft delete
+
 
     }
 
