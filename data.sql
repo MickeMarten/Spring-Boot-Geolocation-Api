@@ -19,5 +19,26 @@ VALUES
     ('Pizzeria Napoli', 3, 'Authentic Italian pizza in central Norrköping', ST_GeomFromText('POINT(16.1890 58.5921)', 4326));
 
 
+DELETE FROM category
+WHERE id = 6;
 
+DELETE FROM location
+WHERE id = 1 ;
+
+UPDATE location SET is_public = 0 WHERE id = 5;
+
+
+SELECT id, ST_AsText(coordinate) FROM location;
+
+SELECT id, ST_SRID(coordinate) FROM location;
+
+SELECT id, ST_IsValid(coordinate) FROM location;
+
+UPDATE location
+SET coordinate = ST_SRID(coordinate, 4326)
+WHERE ST_SRID(coordinate) != 4326;
+
+SELECT *
+FROM location l1
+WHERE ST_Distance(ST_SRID(l1.coordinate, 4326), ST_SRID(? , 4326)) <= ?;
 

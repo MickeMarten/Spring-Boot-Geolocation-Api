@@ -16,7 +16,10 @@ GET http://localhost:8080/api/categories
 ###
 POST http://localhost:8080/api/location
 Content-Type: application/json
-
+//Testing gpd key
+//Testar igen
+//Testar igen
+//42 gången
 {
   "name": "Kaktusparken",
   "category_id": 1,

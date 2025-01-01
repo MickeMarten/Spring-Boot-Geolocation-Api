@@ -18,9 +18,7 @@ public interface LocationRepository extends ListCrudRepository<Location, Integer
     @Query("SELECT l FROM Location l WHERE ST_Distance(l.coordinate, :center) <= :radius")
     List<Location> findAllWithinRadius(Point center, double radius);
 
-    Optional<Location> findByName(String name);
 
-    List<Location> findByUser(String username);
 
 }
 

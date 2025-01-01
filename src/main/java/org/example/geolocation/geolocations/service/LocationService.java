@@ -11,10 +11,7 @@ import org.geolatte.geom.Geometries;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
@@ -24,7 +21,6 @@ public class LocationService {
 
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
-
 
     public LocationService(CategoryRepository categoryRepository, LocationRepository locationRepository) {
         this.categoryRepository = categoryRepository;
@@ -63,23 +59,8 @@ public class LocationService {
 
     }
 
-    public List<LocationDto> getLocationsForUser(Principal principal) {
-        String username = principal.getName();
 
-        List<Location> locations = locationRepository.findByUser(username);
-
-        return locations.stream()
-                .map(LocationDto::convertToDto)
-                .toList();
-    }
-
-
-    public Integer addLocation(LocationDto locationDto, Principal principal) {
-
-        Optional<Location> existingLocation = locationRepository.findByName(locationDto.name());
-        if (existingLocation.isPresent()) {
-            throw new IllegalArgumentException("Location with name '" + locationDto.name() + "' already exists");
-        }
+    public Integer addLocation(LocationDto locationDto) {
 
         Category categoryId = categoryRepository.findById(locationDto.category_id())
                 .orElseThrow(() -> new IllegalArgumentException("Category with id " + locationDto.category_id() + " does not exist"));
@@ -89,7 +70,6 @@ public class LocationService {
         newLocation.setCategory(categoryId);
         newLocation.setDescription(locationDto.description());
         newLocation.setCoordinate(locationDto.coordinate());
-        newLocation.setUser(principal.getName());
         locationRepository.save(newLocation);
         return newLocation.getId();
     }

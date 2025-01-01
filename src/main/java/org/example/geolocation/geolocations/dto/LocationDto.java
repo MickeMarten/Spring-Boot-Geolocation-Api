@@ -5,7 +5,7 @@ import org.geolatte.geom.Point;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public record LocationDto(Integer id, String name, String user, Integer category_id, String description,
+public record LocationDto(Integer id, String name, Integer category_id, String description,
                           LocalDateTime created, LocalDateTime modified_at, Boolean is_Public,
                           Point coordinate, Boolean deleted) {
 
@@ -13,7 +13,6 @@ public record LocationDto(Integer id, String name, String user, Integer category
         return new LocationDto(
                 location.getId(),
                 location.getName(),
-                location.getUser(),
                 location.getCategory().getId(),
                 location.getDescription(),
                 LocalDateTime.ofInstant(location.getCreated(), ZoneOffset.UTC),

@@ -1,16 +1,15 @@
 ##1. Kategori: Varje kategori ska ha ett namn, en symbol ( )
 ##och en beskrivning.
 CREATE TABLE IF NOT EXISTS category (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL ,
-    name VARCHAR(255) UNIQUE NOT NULL,
+    id INTEGER AUTO_INCREMENT PRIMARY KEY ,
+    name VARCHAR(255),
     symbol VARCHAR(255),
     description VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS location (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL ,
-    user VARCHAR(255) UNIQUE,
     category_id INTEGER,
     description VARCHAR(255),
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
