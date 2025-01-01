@@ -105,8 +105,7 @@ public class LocationController {
     public void deleteLocation(@PathVariable("locationId") Integer locationId) {
         locationService.deleteLocation(locationId);
 
-        // DELETE: Ta bort en befintlig plats (kräver inloggning). Här kan soft
-        //  delete vara ett alternativ
+
 
     }
 
