@@ -19,7 +19,7 @@ Fetch places in a category or area.
 Fetch private/public places for the logged-in user.
 POST: Add a new place (login required).
 PUT: Update an existing place (login required).
-DELETE: Remove a place (login required, soft delete supported).
+DELETE: Remove a place (login required).
 
 Security
 Anonymous users can only access public places.
